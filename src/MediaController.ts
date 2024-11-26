@@ -73,13 +73,13 @@ export default class MediaController<
 
     this.scope = scope as IModifiedScope;
 
-    this.scope.addEventListener("keydown", this.onScopeKeydown);
-    this.target.addEventListener("keydown", this.onMediaKeydown);
-
     if (this.scope.__mediaController) {
       console.warn("Overwriting existing media controller");
       this.scope.__mediaController.dispose();
     }
+
+    this.scope.addEventListener("keydown", this.onScopeKeydown);
+    this.target.addEventListener("keydown", this.onMediaKeydown);
 
     this.scope.__mediaController = this;
   }
@@ -162,10 +162,6 @@ export default class MediaController<
         this.target.volume -= this.getVolumeDelta(event);
         acted = true;
         break;
-      case " ":
-        this.target.paused ? this.target.play() : this.target.pause();
-        acted = true;
-        break;
       default:
     }
 
@@ -177,7 +173,7 @@ export default class MediaController<
   };
 
   public dispose() {
-    this.scope.removeEventListener("keydown", this.onMediaKeydown);
+    this.scope.removeEventListener("keydown", this.onScopeKeydown);
     this.target.removeEventListener("keydown", this.onMediaKeydown);
 
     delete this.scope.__mediaController;
