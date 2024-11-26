@@ -147,7 +147,7 @@ export default class MediaController<
 
     switch (event.key) {
       case "ArrowLeft":
-        this.target.currentTime -= this.getTimeDelta(event);
+        this.target.currentTime = Math.max(this.target.currentTime - this.getTimeDelta(event), 0);
         acted = true;
         break;
       case "ArrowRight":
@@ -155,11 +155,11 @@ export default class MediaController<
         acted = true;
         break;
       case "ArrowUp":
-        this.target.volume += this.getVolumeDelta(event);
+        this.target.volume = Math.min(this.target.volume + this.getVolumeDelta(event), 1);
         acted = true;
         break;
       case "ArrowDown":
-        this.target.volume -= this.getVolumeDelta(event);
+        this.target.volume = Math.max(this.target.volume - this.getVolumeDelta(event), 0);
         acted = true;
         break;
       default:
